@@ -8,25 +8,23 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
-	//
-	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	//
-	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-	// MY_BUCKET: R2Bucket;
-	//
-	// Example binding to a Service. Learn more at https://developers.cloudflare.com/workers/runtime-apis/service-bindings/
-	// MY_SERVICE: Fetcher;
-	//
-	// Example binding to a Queue. Learn more at https://developers.cloudflare.com/queues/javascript-apis/
-	// MY_QUEUE: Queue;
-}
+import { Env } from './env';
+import { checkAuth0Auth, handleAuth0 } from './utils/handleAuth0';
+import { checkMauticAuth, handleMautic } from './utils/handleMautic';
+import { checkMercadoPagoAuth, handleMercadoPago } from './utils/handleMercadoPado';
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		const isAuth0 = checkAuth0Auth(request, env);
+		const isMautic = checkMauticAuth(request, env);
+		const isMercadoPago = checkMercadoPagoAuth(request, env);
+		console.log('CHECK', { isAuth0, isMautic, isMercadoPago });
+		if (!isAuth0 && !isMautic && !isMercadoPago) return new Response('Not recognized request', { status: 400 });
+
+		isAuth0 && (await handleAuth0(request));
+		isMautic && (await handleMautic(request));
+		isMercadoPago && (await handleMercadoPago(request, env));
+
 		return new Response('Hello World!');
 	},
 };
