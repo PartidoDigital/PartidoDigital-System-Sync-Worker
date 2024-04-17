@@ -1,0 +1,10 @@
+name = "systems-sync"
+main = "src/index.ts"
+compatibility_date = "2024-04-04"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+MERCADO_PAGO_SECRET_KEY = ""
+MERCADO_PAGO_ACCESS_TOKEN = ""
+AUTH0_TOKEN = ""
+MAUTIC_SECRET = ""

@@ -5,7 +5,7 @@ const MERCADO_PAGO_AUTH_HEADER = 'x-signature';
 const MERCADO_PAGO_REQUEST_ID_HEADER = 'x-request-id';
 
 export async function handleMercadoPago(request: Request, env: Env) {
-	const body = await request.json();
+	const body = await request.json<{ id: string }>();
 	console.log('HANDLE_MERCADO_PAGO', body);
 	const response = await fetch(`https://api.mercadopago.com/authorized_payments/${body.id}`, {
 		headers: {
