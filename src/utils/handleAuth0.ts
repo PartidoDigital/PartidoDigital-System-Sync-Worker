@@ -2,7 +2,7 @@ import { Env } from '../env';
 
 const AUTH0_AUTH_HEADER = 'Authorization';
 
-export async function handleAuth0(request: Request) {
+export async function handleAuth0(request: Request, env: Env) {
 	console.log('HANDLE_AUTH0', request.body);
 }
 

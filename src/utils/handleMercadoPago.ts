@@ -6,13 +6,14 @@ const MERCADO_PAGO_REQUEST_ID_HEADER = 'x-request-id';
 
 export async function handleMercadoPago(request: Request, env: Env) {
 	const body = await request.json<{ id: string }>();
-	console.log('HANDLE_MERCADO_PAGO', body);
-	const response = await fetch(`https://api.mercadopago.com/authorized_payments/${body.id}`, {
+	console.log('HANDLE_MERCADO_PAGO', body, request.url);
+	return new Response('Ok');
+	/*const response = await fetch(`https://api.mercadopago.com/authorized_payments/${body.id}`, {
 		headers: {
 			Authorization: `Bearer ${env.MERCADO_PAGO_ACCESS_TOKEN}`,
 		},
 	});
-	console.log('RESPONSE', await response.json());
+	console.log('RESPONSE', await response.json());*/
 }
 
 export function checkMercadoPagoAuth(request: Request, env: Env): boolean {

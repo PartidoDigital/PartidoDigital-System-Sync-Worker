@@ -2,7 +2,7 @@ import { Env } from '../env';
 
 const MAUTIC_AUTH_HEADER = 'Webhook-Signature';
 
-export async function handleMautic(request: Request) {
+export async function handleMautic(request: Request, env: Env) {
 	console.log('HANDLE_MAUTIC', request.body);
 }
 

@@ -11,20 +11,13 @@
 import { Env } from './env';
 import { checkAuth0Auth, handleAuth0 } from './utils/handleAuth0';
 import { checkMauticAuth, handleMautic } from './utils/handleMautic';
-import { checkMercadoPagoAuth, handleMercadoPago } from './utils/handleMercadoPado';
+import { checkMercadoPagoAuth, handleMercadoPago } from './utils/handleMercadoPago';
 
 export default {
-	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		const isAuth0 = checkAuth0Auth(request, env);
-		const isMautic = checkMauticAuth(request, env);
-		const isMercadoPago = checkMercadoPagoAuth(request, env);
-		console.log('CHECK', { isAuth0, isMautic, isMercadoPago });
-		if (!isAuth0 && !isMautic && !isMercadoPago) return new Response('Not recognized request', { status: 400 });
-
-		isAuth0 && (await handleAuth0(request));
-		isMautic && (await handleMautic(request));
-		isMercadoPago && (await handleMercadoPago(request, env));
-
-		return new Response('Hello World!');
+	async fetch(...params: [Request, Env]): Promise<Response> {
+		checkAuth0Auth(...params) && (await handleAuth0(...params));
+		checkMauticAuth(...params) && (await handleMautic(...params));
+		checkMercadoPagoAuth(...params) && (await handleMercadoPago(...params));
+		return new Response('Not recognized request', { status: 400 });
 	},
 };
