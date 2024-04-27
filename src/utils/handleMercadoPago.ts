@@ -4,7 +4,7 @@ import { createHmac } from 'node:crypto';
 const MERCADO_PAGO_AUTH_HEADER = 'x-signature';
 const MERCADO_PAGO_REQUEST_ID_HEADER = 'x-request-id';
 
-export async function handleMercadoPago(request: Request, env: Env) {
+export async function handleMercadoPago(request: Request, env: Env): Promise<Response> {
 	const body = await request.json<{ id: string }>();
 	console.log('HANDLE_MERCADO_PAGO', body, request.url);
 	return new Response('Ok');

@@ -15,9 +15,15 @@ import { checkMercadoPagoAuth, handleMercadoPago } from './utils/handleMercadoPa
 
 export default {
 	async fetch(...params: [Request, Env]): Promise<Response> {
-		checkAuth0Auth(...params) && (await handleAuth0(...params));
-		checkMauticAuth(...params) && (await handleMautic(...params));
-		checkMercadoPagoAuth(...params) && (await handleMercadoPago(...params));
-		return new Response('Not recognized request', { status: 400 });
+		switch (true) {
+			case checkAuth0Auth(...params):
+				return await handleAuth0(...params);
+			case checkMauticAuth(...params):
+				return await handleMautic(...params);
+			case checkMercadoPagoAuth(...params):
+				return await handleMercadoPago(...params);
+			default:
+				return new Response('Not recognized request', { status: 400 });
+		}
 	},
 };
